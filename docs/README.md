@@ -7,11 +7,13 @@
 | [tech-selected.md](./tech-selected.md) | 技術選定書。採用技術、選定理由、移行上の留意点を記録する。 | 作成済み |
 | [requirements.md](./requirements.md) | 要件定義。何を実現するか、対象範囲、受入条件を定義する。 | たたき台 |
 | [spec.md](./spec.md) | 仕様書。画面・コンテンツ・振る舞いなど、実装する内容を定義する。 | たたき台 |
+| [content-inventory.md](./content-inventory.md) | 現行サイトから引き継ぐコンテンツと、確認が必要な素材を管理する。 | 作成済み |
 
 ## 更新の順序
 
 1. `requirements.md` で目的・対象範囲・要件を合意する。
 2. `spec.md` で要件を画面・データ・振る舞いに落とし込む。
-3. 実装上の判断が必要になった場合は `tech-selected.md` を見直す。
+3. `content-inventory.md` で移植する文章・メニュー・画像を確認する。
+4. 実装上の判断が必要になった場合は `tech-selected.md` を見直す。
 
 `[要確認]` は、現時点で決めずにレビューまたはヒアリングで確定する項目です。
