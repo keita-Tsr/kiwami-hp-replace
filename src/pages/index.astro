@@ -1,17 +1,102 @@
 ---
-
+const menus = [
+	{ category: 'たこ焼き', items: [
+		['醤油', '480円', 'menu-soy-sauce.jpg'], ['醤油マヨ', '480円', 'menu-soy-mayo.jpg'],
+		['ソース', '480円', 'menu-sauce.jpg'], ['ソースマヨ', '480円', 'menu-sauce-mayo.jpg'],
+		['塩', '480円', 'menu-salt.jpg'], ['ネギ醤油マヨ', '540円', 'menu-green-onion-soy-mayo.jpg'],
+		['ネギソースマヨ', '540円', 'menu-green-onion-sauce-mayo.jpg'], ['ネギポンマヨ', '540円', 'menu-green-onion-ponzu-mayo.jpg'],
+		['ネギ塩', '540円', 'menu-green-onion-salt.jpg'], ['ネギ梅マヨ', '540円', 'menu-green-onion-plum-mayo.jpg'],
+	] },
+	{ category: 'お好み焼き', items: [
+		['お好み焼き（豚玉・イカ玉）', '440円', 'menu-okonomiyaki.jpeg'], ['お好み焼き（ミックス）', '480円', 'menu-okonomiyaki.jpeg'],
+	] },
+	{ category: 'その他', items: [
+		['みたらし団子', '100円（5本 450円）', 'menu-mitarashi.jpeg'], ['五平餅', '200円', 'menu-gohei-mochi.jpg'],
+		['チョコマント団子', '200円', 'menu-choco-manto.jpg'], ['夢福餅', '200円', 'menu-yumefuku-mochi.jpg'],
+		['塩豆大福', '200円', 'menu-shiomame-daifuku.jpg'], ['抹茶大福', '200円', 'menu-matcha-daifuku.jpg'],
+		['田楽わらび餅（三ヶ日みかん）', '200円', 'menu-mikan-warabi.jpg'], ['わらび餅（きな粉）', '200円', 'menu-kinako-warabi.png'],
+	] },
+];
+const mapUrl = 'https://www.google.com/maps/search/?api=1&query=愛知県名古屋市緑区大高町天神70';
 ---
 
-<html lang="en">
+<html lang="ja">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content="名古屋市緑区大高町のたこ焼き店、きわみ大高店。国産米粉を使ったたこ焼きをご用意しています。" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>きわみ大高店 | たこ焼き・お好み焼き</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<a class="skip" href="#main">本文へ移動</a>
+		<header>
+			<div class="header-inner">
+				<a class="brand" href="#top">きわみ</a>
+				<nav class="desktop-nav" aria-label="ページ内ナビゲーション">
+					<a href="#about">こだわり</a><a href="#menu">お品書き</a><a href="#shop">店舗情報</a>
+				</nav>
+				<a class="phone" href="tel:0526296005">電話で注文する</a>
+				<details class="mobile-nav">
+					<summary aria-label="メニューを開く"><span></span><span></span><span></span></summary>
+					<div class="mobile-panel">
+						<nav aria-label="モバイル用ページ内ナビゲーション">
+							<a href="#about">こだわり</a><a href="#menu">お品書き</a><a href="#shop">店舗情報</a>
+						</nav>
+						<a class="phone" href="tel:0526296005">電話で注文する</a>
+					</div>
+				</details>
+			</div>
+		</header>
+
+		<main id="main">
+			<section class="hero" id="top" aria-labelledby="hero-title">
+				<img src="/images/storefront.jpg" alt="きわみ大高店の店舗外観" />
+			</section>
+
+			<section class="section" id="about" aria-labelledby="about-title">
+				<div class="heading"><p>OUR COMMITMENT</p><h2 id="about-title">きわみのこだわり</h2></div>
+				<div class="about">
+					<div class="about-images">
+						<img src="/images/about-1.jpeg" alt="鉄板で焼き上げるたこ焼き" loading="lazy" />
+					</div>
+					<div class="copy"><p>お客様に笑顔になっていただくために、一つひとつ丁寧に焼き上げています。</p><p>生地には国産米粉を100%使用。外はカリッと、中はもっちりとした食感をお楽しみください。</p><p>くず粉でとろみをつけた、甘辛いたれも自慢です。</p></div>
+				</div>
+			</section>
+
+			<section class="section news" aria-labelledby="news-title">
+				<div class="heading"><p>NEWS</p><h2 id="news-title">お知らせ</h2></div>
+				<div class="notice"><strong>営業に関するお知らせ</strong><p>最新の営業日・休業日は、店頭またはお電話でご確認ください。</p><a href="tel:0526296005">052-629-6005</a></div>
+			</section>
+
+			<section class="section menu" id="menu" aria-labelledby="menu-title">
+				<div class="heading"><p>MENU</p><h2 id="menu-title">お品書き</h2><small>価格は税込です。内容・価格は変更となる場合があります。</small></div>
+				{menus.map(({ category, items }) => (
+					<div class="category"><h3>{category}</h3><div class="cards">
+						{items.map(([name, price, image]) => <article><img src={`/images/${image}`} alt={`${name}の写真`} loading="lazy" /><div><h4>{name}</h4><p>{price}</p></div></article>)}
+					</div></div>
+				))}
+			</section>
+
+			<section class="section" id="shop" aria-labelledby="shop-title">
+				<div class="heading"><p>SHOP INFO</p><h2 id="shop-title">店舗情報</h2></div>
+				<div class="shop"><img src="/images/parking.png" alt="きわみ大高店の駐車場案内" loading="lazy" /><dl>
+					<div><dt>店名</dt><dd>きわみ 大高店</dd></div><div><dt>住所</dt><dd>〒459-8001<br />愛知県名古屋市緑区大高町天神70</dd></div><div><dt>アクセス</dt><dd>JR「大高駅」から徒歩5分</dd></div><div><dt>営業時間</dt><dd>10:00〜19:00</dd></div><div><dt>定休日</dt><dd>火曜日</dd></div><div><dt>電話番号</dt><dd><a href="tel:0526296005">052-629-6005</a></dd></div>
+				</dl></div>
+				<div class="actions"><a class="button primary" href="tel:0526296005">電話で注文する</a><a class="button outline" href={mapUrl} target="_blank" rel="noreferrer">地図で見る</a></div>
+			</section>
+		</main>
+		<footer><p>TAKOYAKI KIWAMI ODAKA</p><small>© {new Date().getFullYear()} きわみ大高店</small></footer>
+
+		<style is:global>
+			:root { color: #302721; background: #fffdf9; font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif; } * { box-sizing: border-box; } body { margin: 0; line-height: 1.75; } img { display: block; max-width: 100%; } a { color: inherit; } .skip { position: fixed; z-index: 20; top: -5rem; left: 1rem; padding: .5rem 1rem; background: white; } .skip:focus { top: 1rem; }
+			header { position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #e8dfd2; background: rgba(255,253,249,.96); } .header-inner { max-width: 1120px; min-height: 78px; margin: auto; padding: .75rem 1.25rem; display: flex; align-items: center; gap: 1.5rem; } .brand { display: flex; flex: 1; flex-direction: column; font: bold 1.7rem/1.15 Georgia, serif; text-decoration: none; } .brand small, .heading > p { color: #977641; font: bold .68rem/1 Arial, sans-serif; letter-spacing: .15em; } .brand span { font-size: .85rem; } nav { display: flex; gap: 1.25rem; font-size: .9rem; } nav a { text-decoration: none; } nav a:hover, nav a:focus-visible { color: #977641; } .phone, .button { display: inline-block; padding: .7rem 1rem; font-weight: 700; text-decoration: none; } .phone, .primary { background: #3f6c50; color: #fff; } .phone { font-size: .85rem; white-space: nowrap; } .mobile-nav { display: none; }
+			.hero { position: relative; min-height: min(650px, calc(100vh - 78px)); display: grid; align-items: center; overflow: hidden; color: #fff; } .hero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(31,24,19,.7), rgba(31,24,19,.16)); } .hero > img { position: absolute; width: 100%; height: 100%; object-fit: cover; } .hero > div { position: relative; z-index: 2; width: min(1120px,100%); margin: auto; padding: 4rem 1.5rem; } .hero p { margin: 0 0 .5rem; font-weight: 700; letter-spacing: .08em; } h1 { margin: 0 0 1.75rem; font: clamp(2.25rem,6vw,4.8rem)/1.25 Georgia, "Yu Mincho", serif; } .light { background: #fffdf9; color: #3f6c50; }
+			.section { max-width: 1120px; margin: auto; padding: 5.5rem 1.5rem; } .heading { margin-bottom: 2.4rem; text-align: center; } .heading h2 { margin: .2rem 0 .5rem; font: clamp(1.8rem,4vw,2.6rem)/1.3 Georgia, "Yu Mincho", serif; } .heading h2::after { content: ""; display: block; width: 2.5rem; height: 2px; margin: .7rem auto 0; background: #b79457; } .heading small { color: #6c645d; } .about, .shop { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,6vw,5rem); align-items: center; } .about-images img { width: 100%; height: 460px; object-fit: cover; } .copy { font-size: 1.05rem; }
+			.news { padding-top: 0; } .notice { max-width: 680px; margin: auto; padding: 1.5rem 2rem; border-left: 4px solid #b79457; background: #f5efe5; text-align: center; } .notice p { margin: .25rem 0; } .notice a, .shop a { color: #3f6c50; font-weight: 700; } .menu { max-width: none; background: #f7f1e7; } .menu > .heading, .category { max-width: 1120px; margin-left: auto; margin-right: auto; } .category + .category { margin-top: 3rem; } .category h3 { text-align: center; font: 1.5rem Georgia, "Yu Mincho", serif; } .cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; } article { overflow: hidden; background: #fffdf9; box-shadow: 0 2px 10px rgba(55,39,23,.08); } article img { width: 100%; aspect-ratio: 1; object-fit: cover; } article div { padding: .8rem .85rem 1rem; } h4, article p { margin: 0; line-height: 1.45; } h4 { font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif; font-size: 1.05rem; font-weight: 700; letter-spacing: .06em; } article p { margin-top: .4rem; color: #977641; font-weight: 700; font-size: .85rem; }
+			.shop > img { width: 100%; max-height: 430px; object-fit: cover; object-position: top; } dl { margin: 0; } dl div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem; padding: .8rem 0; border-bottom: 1px solid #e8dfd2; } dt { font-weight: 700; } dd { margin: 0; } .actions { display: flex; justify-content: center; gap: 1rem; margin-top: 2.5rem; } .outline { border: 1px solid #3f6c50; color: #3f6c50; } footer { padding: 2.5rem 1.5rem; background: #332a24; color: #fff; text-align: center; } footer p, footer small { margin: 0; } footer p { font-family: Georgia, serif; letter-spacing: .1em; } footer small { color: #d4c9bc; font-size: .75rem; }
+			@media (max-width: 760px) { .header-inner { position: relative; min-height: 68px; padding: .75rem 1.25rem; } .brand { min-width: 0; font-size: 1.45rem; } .desktop-nav, .header-inner > .phone { display: none; } .mobile-nav { display: block; margin-left: auto; } .mobile-nav summary { display: grid; width: 42px; height: 42px; padding: 11px 8px; cursor: pointer; place-content: center; gap: 5px; list-style: none; border: 1px solid #ded4c7; } .mobile-nav summary::-webkit-details-marker { display: none; } .mobile-nav summary span { display: block; width: 23px; height: 2px; background: #3f6c50; transition: transform .2s ease, opacity .2s ease; } .mobile-nav[open] summary span:nth-child(1) { transform: translateY(7px) rotate(45deg); } .mobile-nav[open] summary span:nth-child(2) { opacity: 0; } .mobile-nav[open] summary span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); } .mobile-panel { position: absolute; top: calc(100% + .75rem); right: 1.25rem; width: min(280px, calc(100vw - 2.5rem)); padding: 1.25rem; background: #fffdf9; border: 1px solid #e8dfd2; box-shadow: 0 12px 30px rgba(55,39,23,.16); } .mobile-panel nav { display: grid; gap: 0; font-size: 1rem; } .mobile-panel nav a { padding: .8rem .25rem; border-bottom: 1px solid #eee5d9; } .mobile-panel .phone { display: block; margin-top: 1rem; text-align: center; } .hero { min-height: 0; aspect-ratio: 4 / 3; } .hero > img { object-fit: cover; object-position: center; } .hero::before { background: rgba(31,24,19,.12); } .section { padding-top: 4rem; padding-bottom: 4rem; } .about, .shop { grid-template-columns: 1fr; } .about-images img { height: 380px; } .cards { grid-template-columns: repeat(2,1fr); gap: .75rem; } .shop > img { order: 2; } .actions { flex-direction: column; text-align: center; } }
+		</style>
 	</body>
 </html>
