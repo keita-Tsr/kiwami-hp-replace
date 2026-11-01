@@ -8,6 +8,8 @@
 | [requirements.md](./requirements.md) | 要件定義。何を実現するか、対象範囲、受入条件を定義する。 | たたき台 |
 | [spec.md](./spec.md) | 仕様書。画面・コンテンツ・振る舞いなど、実装する内容を定義する。 | たたき台 |
 | [content-inventory.md](./content-inventory.md) | 現行サイトから引き継ぐコンテンツと、確認が必要な素材を管理する。 | 作成済み |
+| [microcms-setup.md](./microcms-setup.md) | microCMSのAPI構成と環境変数を定義する。 | 作成済み |
+| [cms-publishing.md](./cms-publishing.md) | CMS公開からCloudflare Pagesのビルドを起動する手順を定義する。 | 作成済み |
 
 ## 更新の順序
 
