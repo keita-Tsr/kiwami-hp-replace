@@ -18,16 +18,51 @@ const menus = [
 	] },
 ];
 const mapUrl = 'https://www.google.com/maps/search/?api=1&query=愛知県名古屋市緑区大高町天神70';
+const canonicalUrl = new URL('/', Astro.site);
+const description = '名古屋市緑区大高町のたこ焼き店、きわみ大高店。国産米粉を使ったたこ焼きをご用意しています。';
+const storeImageUrl = new URL('/images/storefront.jpg', Astro.site);
+const structuredData = {
+	'@context': 'https://schema.org',
+	'@type': 'FoodEstablishment',
+	name: 'きわみ 大高店',
+	url: canonicalUrl.href,
+	image: storeImageUrl.href,
+	telephone: '+81-52-629-6005',
+	servesCuisine: 'たこ焼き',
+	address: {
+		'@type': 'PostalAddress',
+		postalCode: '459-8001',
+		addressCountry: 'JP',
+		addressRegion: '愛知県',
+		addressLocality: '名古屋市緑区',
+		streetAddress: '大高町天神70',
+	},
+	openingHoursSpecification: {
+		'@type': 'OpeningHoursSpecification',
+		dayOfWeek: ['Monday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+		opens: '10:00',
+		closes: '19:00',
+	},
+};
 ---
 
 <html lang="ja">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="description" content="名古屋市緑区大高町のたこ焼き店、きわみ大高店。国産米粉を使ったたこ焼きをご用意しています。" />
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta property="og:locale" content="ja_JP" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="きわみ大高店 | たこ焼き・お好み焼き" />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={storeImageUrl} />
+		<meta name="twitter:card" content="summary_large_image" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<title>きわみ大高店 | たこ焼き・お好み焼き</title>
+		<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 	</head>
 	<body>
 		<a class="skip" href="#main">本文へ移動</a>
