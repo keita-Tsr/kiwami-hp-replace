@@ -18,7 +18,7 @@ microCMSで公開・更新 → Deploy HookへPOST → Cloudflare Pagesがmainを
   - `MICROCMS_ENABLED=true`
   - `MICROCMS_SERVICE_DOMAIN`
   - `MICROCMS_API_KEY`（GET権限のみ）
-- microCMSに`menus`、`notices`、`shop`のAPIと公開データがある
+- microCMSに`menus`、`informations`、`store`のAPIと公開データがある
 
 ## 設定手順
 
@@ -33,7 +33,7 @@ Deploy Hook URLは認証ヘッダーなしでビルドを起動できる秘密�
 
 ### 2. microCMSでWebhookを設定する
 
-`menus`、`notices`、`shop`の各APIで、**API設定 > Webhook > Cloudflare Pages** を追加する。
+`menus`、`informations`、`store`の各APIで、**API設定 > Webhook > Cloudflare Pages** を追加する。
 
 - Deploy Hook URL: 手順1で作成したURL
 - 通知タイミング: 「公開時・更新時」と「公開終了時」
@@ -43,7 +43,7 @@ Deploy Hook URLは認証ヘッダーなしでビルドを起動できる秘密�
 ## 動作確認
 
 1. 初回デプロイが成功し、`main`の公開サイトが表示できることを確認する。
-2. `notices`にテスト用のお知らせを公開する。
+2. `informations`にテスト用のお知らせを公開する。
 3. Cloudflare PagesのDeploymentsで、Deploy Hookを起点としたビルドが開始されたことを確認する。
 4. ビルド成功後、公開サイトにテスト記事が表示されることを確認する。
 5. テスト記事を公開終了にし、同じ手順で非表示になることを確認する。
