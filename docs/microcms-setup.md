@@ -10,10 +10,10 @@ APIキーはブラウザへ配信せず、ローカル環境とCloudflare Pages�
 | API ID | 形式 | フィールド |
 | --- | --- | --- |
 | `menus` | リスト形式 | `name`（テキスト）、`price`（テキスト）、`category`（セレクト：たこ焼き／お好み焼き／その他）、`image`（画像）、`image_alt`（テキスト）、`display_order`（数値）、`is_visible`（真偽値） |
-| `notices` | リスト形式 | `title`（テキスト）、`body`（複数行テキスト）、`type`（セレクト：お知らせ／休業日）、`publishedAt`（公開日時） |
-| `shop` | オブジェクト形式 | `name`、`address`、`access`、`business_hours`、`regular_holiday`、`telephone`、`map_url`（すべてテキスト。`map_url`はGoogle MapsのHTTPS URL） |
+| `informations` | リスト形式 | `title`（テキスト）、`body`（複数行テキスト）、`type`（セレクト：お知らせ／休業日）、`publishedAt`（公開日時） |
+| `store` | オブジェクト形式 | `name`、`address`、`access`、`business_hours`、`regular_holidays`、`telephone`（テキスト）、`map_image`（画像） |
 
-`notices.body`は、現行表示に合わせて複数行テキストを使う。HTMLをページへ直接埋め込むリッチテキストは、この段階では使用しない。
+`informations.body`は、現行表示に合わせて複数行テキストを使う。HTMLをページへ直接埋め込むリッチテキストは、この段階では使用しない。
 
 ## 環境変数
 
@@ -24,6 +24,11 @@ APIキーはブラウザへ配信せず、ローカル環境とCloudflare Pages�
 | `MICROCMS_ENABLED` | `true`のときだけmicroCMSを取得する。未設定または`false`ならローカル初期データを表示する。 |
 | `MICROCMS_SERVICE_DOMAIN` | `https://{サービスドメイン}.microcms.io` のサービスドメイン部分。 |
 | `MICROCMS_API_KEY` | GET権限だけを付与したContent APIキー。 |
+| `MICROCMS_DRAFT_PREVIEW` | ローカル確認時のみ `true`。下書き取得権限を持つ専用キーと組み合わせる。 |
+
+下書き確認には、GETと下書きコンテンツ全取得のみを許可した専用キーをローカルの `.env` に設定する。権限を持つキーは下書きを取得できるため、CloudflareやGitに保存しない。`MICROCMS_DRAFT_PREVIEW=true` のビルド成果物も共有・公開しない。CI環境ではこの設定でビルドを拒否する。公開用には下書き取得権限を持たない別のキーを使う。
+
+地図ボタンのリンク先はサイト側の固定値を使用する。`map_image` の画像は駐車場案内として表示し、未設定時は既存画像を使用する。
 
 Cloudflare Pagesへ設定する際は、`MICROCMS_ENABLED=true`と3変数すべてを設定する。`true`なのに値が不足している場合は、誤ったフォールバックを本番公開しないようビルドを失敗させる。
 

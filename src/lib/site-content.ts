@@ -24,6 +24,7 @@ export type StoreInfo = {
 	regularHoliday: string;
 	telephone: string;
 	mapUrl: string;
+	mapImageUrl?: string;
 };
 
 export type SiteContent = {
@@ -81,7 +82,7 @@ type MicroCMSMedia = { url: string; alt?: string };
 type MicroCMSMenu = {
 	name: string;
 	price: string | number;
-	category: string;
+	category: string[];
 	image?: MicroCMSMedia;
 	image_alt?: string;
 	display_order?: number;
@@ -93,9 +94,9 @@ type MicroCMSStore = {
 	address: string;
 	access: string;
 	business_hours: string;
-	regular_holiday: string;
+	regular_holidays: string;
 	telephone: string;
-	map_url: string;
+	map_image?: MicroCMSMedia;
 };
 type MicroCMSList<T> = { contents: T[] };
 
@@ -156,9 +157,13 @@ function groupMenus(contents: MicroCMSMenu[]): MenuCategory[] {
 	const groups = new Map<string, Array<MicroCMSMenu & { index: number }>>();
 
 	visibleMenus.forEach((item, index) => {
-		const group = groups.get(item.category) ?? [];
+		if (!Array.isArray(item.category) || item.category.length !== 1 || !categoryOrder.includes(item.category[0])) {
+			throw new Error(`Menu "${item.name}" must have exactly one valid category.`);
+		}
+		const category = item.category[0];
+		const group = groups.get(category) ?? [];
 		group.push({ ...item, index });
-		groups.set(item.category, group);
+		groups.set(category, group);
 	});
 
 	return [...groups.entries()]
@@ -190,12 +195,18 @@ export async function getSiteContent(): Promise<SiteContent> {
 	if (import.meta.env.MICROCMS_ENABLED !== 'true') {
 		return { ...fallbackContent, source: 'fallback' };
 	}
+	if (import.meta.env.MICROCMS_DRAFT_PREVIEW === 'true' && process.env.CI) {
+		throw new Error('Draft preview is only allowed locally.');
+	}
 
 	const [menus, notices, store] = await Promise.all([
 		fetchMicroCMS<MicroCMSList<MicroCMSMenu>>('menus', '?limit=100'),
-		fetchMicroCMS<MicroCMSList<MicroCMSNotice>>('notices', '?limit=3&orders=-publishedAt'),
-		fetchMicroCMS<MicroCMSStore>('shop'),
+		fetchMicroCMS<MicroCMSList<MicroCMSNotice>>('informations', '?limit=3&orders=-publishedAt'),
+		fetchMicroCMS<MicroCMSStore>('store'),
 	]);
+	if (store.map_image?.url && !isSafeMediaUrl(store.map_image.url)) {
+		throw new Error('store.map_image must be hosted by microCMS.');
+	}
 
 	return {
 		menus: groupMenus(menus.contents),
@@ -205,9 +216,10 @@ export async function getSiteContent(): Promise<SiteContent> {
 			address: store.address,
 			access: store.access,
 			businessHours: store.business_hours,
-			regularHoliday: store.regular_holiday,
+			regularHoliday: store.regular_holidays,
 			telephone: store.telephone,
-			mapUrl: getSafeMapUrl(store.map_url),
+			mapUrl: getSafeMapUrl(fallbackContent.store.mapUrl),
+			mapImageUrl: store.map_image?.url,
 		},
 		source: 'microcms',
 	};
